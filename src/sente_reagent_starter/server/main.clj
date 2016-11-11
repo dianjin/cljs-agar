@@ -1,9 +1,11 @@
-(ns snakelake.server.main
+(ns sente_reagent_starter.server.main
   (:require
     [org.httpkit.server :as server]
-    [snakelake.server.routes :as routes]
-    [environ.core :as environ])
-  (:gen-class))
+    [sente_reagent_starter.server.routes :as routes]
+    [environ.core :as environ]
+    )
+  (:gen-class)
+  )
 
 (defn -main [& args]
   (println "Server starting...")

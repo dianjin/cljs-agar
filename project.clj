@@ -1,11 +1,11 @@
-(defproject snakelake "0.1.0-SNAPSHOT"
-  :description "Snakelake is a multiplayer snake game"
-  :url "http://github.com/timothypratley/snakelake"
+(defproject sente_reagent_starter "0.1.0-SNAPSHOT"
+  :description "TODO"
+  :url "TODO"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
   :min-lein-version "2.5.3"
-  
+
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.8.34"]
                  [org.clojure/core.async "0.2.374"]
@@ -27,9 +27,9 @@
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
-  :main snakelake.server.main
+  :main sente_reagent_starter.server.main
 
-  :uberjar-name "snakelake-standalone.jar"
+  :uberjar-name "sente_reagent_starter-standalone.jar"
 
   :profiles
   {:dev {:env {:dev? "true"}
@@ -37,9 +37,9 @@
                      [{:id "dev"
                        :source-paths ["src" "dev"]
                        :figwheel {}
-                       :compiler {:main snakelake.main
+                       :compiler {:main sente_reagent_starter.main
                                   :asset-path "js/compiled/out"
-                                  :output-to "resources/public/js/compiled/snakelake.js"
+                                  :output-to "resources/public/js/compiled/sente_reagent_starter.js"
                                   :output-dir "resources/public/js/compiled/out"
                                   :source-map-timestamp true}}]}}
    :uberjar {:hooks [leiningen.cljsbuild]
@@ -47,8 +47,8 @@
              :cljsbuild {:builds
                          [{:id "min"
                            :source-paths ["src" "prod"]
-                           :compiler {:main snakelake.main
-                                      :output-to "resources/public/js/compiled/snakelake.js"
+                           :compiler {:main sente_reagent_starter.main
+                                      :output-to "resources/public/js/compiled/sente_reagent_starter.js"
                                       :optimizations :advanced
                                       :pretty-print false}}]}}}
 
