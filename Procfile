@@ -1,1 +1,1 @@
-web: java $JVM_OPTS -cp target/sente_reagent_starter-standalone.jar clojure.main -m sente_reagent_starter.server.main $PORT
+web: java $JVM_OPTS -cp target/agar-standalone.jar clojure.main -m agar.server.main $PORT

@@ -1,7 +1,7 @@
-(ns sente_reagent_starter.server.main
+(ns agar.server.main
   (:require
     [org.httpkit.server :as server]
-    [sente_reagent_starter.server.routes :as routes]
+    [agar.server.routes :as routes]
     [environ.core :as environ]
     )
   (:gen-class)

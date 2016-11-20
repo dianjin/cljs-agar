@@ -1,6 +1,6 @@
-(ns sente_reagent_starter.server.routes
+(ns agar.server.routes
   (:require
-    [sente_reagent_starter.server.model :as model]
+    [agar.server.model :as model]
     [ring.middleware.defaults :as defaults]
     [ring.middleware.reload :as reload]
     [ring.middleware.cors :as cors]
@@ -73,7 +73,7 @@
     [uid (:any @(:connected-uids channel-socket))]
     ((:send-fn channel-socket)
       uid
-      [:sente_reagent_starter/remote @model/remote]
+      [:agar/remote @model/remote]
       )
     )
   )
@@ -117,7 +117,7 @@
 
 ; State transitions
 
-(defmethod event :sente_reagent_starter/username
+(defmethod event :agar/username
   [{:keys [uid ?data]}]
   (model/username uid ?data)
   )

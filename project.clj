@@ -1,4 +1,4 @@
-(defproject sente_reagent_starter "0.1.0-SNAPSHOT"
+(defproject agar "0.1.0-SNAPSHOT"
   :description "TODO"
   :url "TODO"
   :license {:name "Eclipse Public License"
@@ -27,9 +27,9 @@
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
-  :main sente_reagent_starter.server.main
+  :main agar.server.main
 
-  :uberjar-name "sente_reagent_starter-standalone.jar"
+  :uberjar-name "agar-standalone.jar"
 
   :profiles
   {:dev {:env {:dev? "true"}
@@ -37,9 +37,9 @@
                      [{:id "dev"
                        :source-paths ["src" "dev"]
                        :figwheel {}
-                       :compiler {:main sente_reagent_starter.main
+                       :compiler {:main agar.main
                                   :asset-path "js/compiled/out"
-                                  :output-to "resources/public/js/compiled/sente_reagent_starter.js"
+                                  :output-to "resources/public/js/compiled/agar.js"
                                   :output-dir "resources/public/js/compiled/out"
                                   :source-map-timestamp true}}]}}
    :uberjar {:hooks [leiningen.cljsbuild]
@@ -47,8 +47,8 @@
              :cljsbuild {:builds
                          [{:id "min"
                            :source-paths ["src" "prod"]
-                           :compiler {:main sente_reagent_starter.main
-                                      :output-to "resources/public/js/compiled/sente_reagent_starter.js"
+                           :compiler {:main agar.main
+                                      :output-to "resources/public/js/compiled/agar.js"
                                       :optimizations :advanced
                                       :pretty-print false}}]}}}
 

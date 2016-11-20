@@ -1,4 +1,4 @@
-(ns sente_reagent_starter.server.model
+(ns agar.server.model
   (:require
     [clojure.string :as string]
     [clojure.set :as set]

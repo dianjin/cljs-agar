@@ -1,10 +1,10 @@
-(ns sente_reagent_starter.view
+(ns agar.view
   (:require
     [clojure.string :as string]
     [goog.events :as events]
     [goog.events.KeyCodes :as KeyCodes]
-    [sente_reagent_starter.model :as model]
-    [sente_reagent_starter.communication :as communication]
+    [agar.model :as model]
+    [agar.communication :as communication]
     [goog.crypt :as crypt]
     [goog.dom.forms :as forms]))
 

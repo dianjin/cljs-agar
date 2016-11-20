@@ -1,7 +1,7 @@
-(ns ^:figwheel-always sente_reagent_starter.main
+(ns ^:figwheel-always agar.main
   (:require
-    [sente_reagent_starter.ainit]
-    [sente_reagent_starter.view :as view]
+    [agar.ainit]
+    [agar.view :as view]
     [reagent.core :as r]
     )
   )

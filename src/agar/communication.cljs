@@ -1,8 +1,8 @@
-(ns sente_reagent_starter.communication
+(ns agar.communication
   (:require
-    [sente_reagent_starter.ainit]
-    [sente_reagent_starter.model :as model]
-    [sente_reagent_starter.config :as config]
+    [agar.ainit]
+    [agar.model :as model]
+    [agar.config :as config]
     [taoensso.sente :as sente]))
 
 (defn get-chsk-url
@@ -47,7 +47,7 @@
 ; Messages to server
 (defn username
   []
-  (chsk-send! [:sente_reagent_starter/username (:username @model/my-state)]))
+  (chsk-send! [:agar/username (:username @model/my-state)]))
 
 (defmethod event-msg-handler :chsk/handshake
   [{:as ev-msg :keys [?data]}]

@@ -1,4 +1,4 @@
-(ns sente_reagent_starter.model
+(ns agar.model
   (:require
     [reagent.core :as r]
     )
