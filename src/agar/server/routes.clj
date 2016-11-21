@@ -1,5 +1,6 @@
 (ns agar.server.routes
   (:require
+    [agar.constants :as constants]
     [agar.server.model :as model]
     [ring.middleware.defaults :as defaults]
     [ring.middleware.reload :as reload]
@@ -12,7 +13,6 @@
     [compojure.route :as route]))
 
 (declare channel-socket)
-(def tick-interval 100)
 
 (defn start-websocket []
   (defonce channel-socket
@@ -83,7 +83,7 @@
 (defn ticker
   []
   (while true
-    (Thread/sleep tick-interval)
+    (Thread/sleep constants/tick-interval)
     (try
       (model/tick)
       (broadcast)

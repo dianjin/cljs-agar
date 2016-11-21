@@ -1,5 +1,6 @@
 (ns agar.components.background
   (:require
+    [agar.model :as model]
     [agar.constants :as constants]
     )
   )
@@ -12,13 +13,17 @@
 (defn grid
   [width height]
   (let [
-    x-offset 0
-    y-offset 0
+    uid (:uid @model/state)
+    position (get-in @model/state [:remote :users uid :position])
+    origin-x (:x position)
+    origin-y (:y position)
+    x-offset (- 0 (rem origin-x constants/cell-size))
+    y-offset (- 0 (rem origin-y constants/cell-size))
     coord-mapper #(* constants/cell-size %)
-    x-repetitions (quot width constants/cell-size)
-    x-list (map coord-mapper (range (inc x-repetitions)))
-    y-repetitions (quot height constants/cell-size)
-    y-list (map coord-mapper (range (inc y-repetitions)))
+    x-repetitions (+ 2 (quot width constants/cell-size))
+    x-list (map coord-mapper (range x-repetitions))
+    y-repetitions (+ 2 (quot height constants/cell-size))
+    y-list (map coord-mapper (range y-repetitions))
     ]
     [:g
       (for [x x-list]

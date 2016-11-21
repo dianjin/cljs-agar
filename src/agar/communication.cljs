@@ -41,13 +41,14 @@
 
 (defmethod event-msg-handler :chsk/recv
   [{:as ev-msg :keys [?data]}]
+  (println (second ?data))
   (model/remote! (second ?data))
   )
 
 ; Messages to server
 (defn username
   []
-  (chsk-send! [:agar/username (:username @model/my-state)]))
+  (chsk-send! [:agar/username (:username @model/state)]))
 
 (defmethod event-msg-handler :chsk/handshake
   [{:as ev-msg :keys [?data]}]

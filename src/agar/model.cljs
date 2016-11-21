@@ -4,7 +4,7 @@
     )
   )
 
-(defonce my-state
+(defonce state
   (r/atom {
     :local nil
     :remote nil
@@ -13,9 +13,9 @@
   )
 
 (defn remote! [world]
-  (swap! my-state assoc :remote world)
+  (swap! state assoc :remote world)
   )
 
 (defn uid! [uid]
-  (swap! my-state assoc :uid uid)
+  (swap! state assoc :uid uid)
   )
