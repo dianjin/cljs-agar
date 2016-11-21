@@ -1,6 +1,7 @@
 body {
   background-color: white;
-  font-family: courier new;
+  font-family: Menlo;
+  font-size: 13px;
   margin: 0;
   padding: 0;
   overflow: hidden;
