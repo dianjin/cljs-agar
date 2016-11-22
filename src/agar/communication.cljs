@@ -50,6 +50,11 @@
   []
   (chsk-send! [:agar/username (:username @model/state)]))
 
+(defn update-mouse-position
+  [position]
+  (chsk-send! [:agar/update-mouse-position position])
+  )
+
 (defmethod event-msg-handler :chsk/handshake
   [{:as ev-msg :keys [?data]}]
   (let [[?uid ?csrf-token ?handshake-data] ?data]

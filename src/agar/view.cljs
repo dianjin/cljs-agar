@@ -12,16 +12,35 @@
     )
   )
 
+; Event handlers
+
+(defn mouse-move-handler
+  [cx cy e]
+  (let [x (.-clientX e) y (.-clientY e)]
+    (communication/update-mouse-position
+      {:x (- x cx) :y (- y cy)}
+      )
+    )
+  )
+
+; Views
+
 (defn render-svg
   []
   (let [
     window (-> (dom/getWindow) dom/getViewportSize)
     width (.-width window)
     height (.-height window)
+    cx (quot width 2)
+    cy (quot height 2)
     ]
-    [:svg {:width width :height height}
+    [:svg {
+      :on-mouse-move (partial mouse-move-handler cx cy)
+      :width width
+      :height height
+      }
       (background/grid width height)
-      (foreground/connected-user width height)
+      (foreground/all-users cx cy)
       ]
     )
   )
