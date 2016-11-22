@@ -122,6 +122,11 @@
   (model/username uid ?data)
   )
 
+(defmethod event :agar/update-mouse-position
+  [{:keys [uid ?data]}]
+  (model/update-mouse-position uid ?data)
+  )
+
 ; Router
 
 (defn start-router

@@ -15,8 +15,7 @@
   (let [
     uid (:uid @model/state)
     position (get-in @model/state [:remote :users uid :position])
-    origin-x (:x position)
-    origin-y (:y position)
+    {origin-x :x origin-y :y} position
     x-offset (- 0 (rem origin-x constants/cell-size))
     y-offset (- 0 (rem origin-y constants/cell-size))
     coord-mapper #(* constants/cell-size %)

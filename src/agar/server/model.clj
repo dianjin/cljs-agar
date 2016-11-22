@@ -1,5 +1,6 @@
 (ns agar.server.model
   (:require
+    [agar.server.physics :as physics]
     [agar.constants :as constants]
     [clojure.string :as string]
     [clojure.set :as set]
@@ -16,13 +17,19 @@
   )
 
 ; User management
+(def user-colors [
+  "pink",
+  "yellow",
+  "cyan",
+  ])
 
 (defn default-user
   [uid] {
     :name (str "Anonymous " uid)
     :position {:x 0.0 :y 0.0}
-    :velocity constants/initial-velocity
+    :velocity {:x 0.0 :y 0.0}
     :radius 10
+    :color (get user-colors (rem uid (count user-colors)))
   })
 
 (defn next-uid
@@ -66,6 +73,22 @@
   )
 
 ; Remote transitions
+(defn steer-user
+  [uid {:keys [x y] :as mouse-from-origin} remote]
+  (let [
+    {radius :radius} (get-in remote [:users uid])
+    real-distance (physics/distance {:x 0 :y 0} mouse-from-origin)
+    ratio (if (< real-distance radius) 1 (/ radius real-distance))
+    scaler (physics/radius-ratio->scaler radius ratio)
+    ]
+    (assoc-in
+      remote
+      [:users uid :velocity]
+      {:x (* scaler x) :y (* scaler y)}
+      )
+    )
+  )
+
 (defn move-users
   [remote]
   (update remote :users #(reduce-kv move-user {} %))
@@ -88,7 +111,12 @@
   (dosync (alter remote #(assoc-in % [:users uid] username)))
   )
 
-(defn reverse-username
-  [uid username]
-  (dosync (alter remote assoc :username (string/reverse username)))
+(defn update-mouse-position
+  [uid position]
+  (dosync
+    (alter
+      remote
+      (partial steer-user uid position)
+      )
+    )
   )

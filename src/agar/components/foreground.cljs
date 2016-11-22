@@ -5,26 +5,49 @@
     )
   )
 
-(def circle-defaults {
-  :fill "rgba(255,0,0,0.1)"
-  :stroke "black"
-  :stroke-width 1
-  })
-
 (defn connected-user
-  [width height]
+  [cx cy {:keys [radius color]}]
+  [:circle {
+    :cx cx
+    :cy cy
+    :r radius
+    :fill color
+    }]
+  )
+
+(defn other-user
+  [cx cy user [uid {:keys [radius color position]}]]
+  (let [
+    {origin-x :x origin-y :y} (:position user)
+    {x :x y :y} position
+    dx (- x origin-x)
+    dy (- y origin-y)
+    ]
+    [:circle {
+      :cx (+ cx dx)
+      :cy (+ cy dy)
+      :r radius
+      :fill color
+      }]
+    )
+  )
+
+(defn all-users
+  [cx cy]
   (let [
     uid (:uid @model/state)
-    user (get-in @model/state [:remote :users uid])
-    radius (:radius user)
-    center-x (quot width 2)
-    center-y (quot height 2)
+    all-users (get-in @model/state [:remote :users])
+    user (get all-users uid)
+    other-users (seq (dissoc all-users uid))
+    {radius :radius color :color} user
     ]
-    [:circle
-      (merge
-        circle-defaults
-        {:cx center-x :cy center-y :r radius}
+    (into [:g]
+      (reverse
+        (cons
+          (connected-user cx cy user)
+          (map (partial other-user cx cy user) other-users)
+          )
         )
-      ]
+      )
     )
   )
