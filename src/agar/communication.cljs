@@ -41,7 +41,6 @@
 
 (defmethod event-msg-handler :chsk/recv
   [{:as ev-msg :keys [?data]}]
-  (println (second ?data))
   (model/remote! (second ?data))
   )
 
