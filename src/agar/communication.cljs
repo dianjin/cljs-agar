@@ -45,13 +45,10 @@
   )
 
 ; Messages to server
-(defn username
-  []
-  (chsk-send! [:agar/username (:username @model/state)]))
 
-(defn update-mouse-position
+(defn set-mouse-position
   [position]
-  (chsk-send! [:agar/update-mouse-position position])
+  (chsk-send! [:agar/set-mouse-position position])
   )
 
 (defmethod event-msg-handler :chsk/handshake

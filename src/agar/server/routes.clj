@@ -2,6 +2,7 @@
   (:require
     [agar.constants :as constants]
     [agar.server.model :as model]
+    [agar.server.update :as update]
     [ring.middleware.defaults :as defaults]
     [ring.middleware.reload :as reload]
     [ring.middleware.cors :as cors]
@@ -18,7 +19,7 @@
   (defonce channel-socket
     (sente/make-channel-socket!
       http-kit/sente-web-server-adapter
-      {:user-id-fn #'model/next-uid}
+      {:user-id-fn #'update/next-uid}
       )
     )
   )
@@ -85,7 +86,7 @@
   (while true
     (Thread/sleep constants/tick-interval)
     (try
-      (model/tick)
+      (update/tick)
       (broadcast)
       (catch Exception ex (println ex))
       )
@@ -106,25 +107,20 @@
 (defmethod event :chsk/uidport-open
   [{:keys [uid client-id]}]
   (println "New connection:" uid client-id)
-  (model/add-user uid)
+  (update/add-player uid)
   )
 
 (defmethod event :chsk/uidport-close
   [{:keys [uid]}]
   (println "Disconnected:" uid)
-  (model/remove-user uid)
+  (update/remove-player uid)
   )
 
-; State transitions
+; User triggered transitions
 
-(defmethod event :agar/username
+(defmethod event :agar/set-mouse-position
   [{:keys [uid ?data]}]
-  (model/username uid ?data)
-  )
-
-(defmethod event :agar/update-mouse-position
-  [{:keys [uid ?data]}]
-  (model/update-mouse-position uid ?data)
+  (update/set-mouse-position uid ?data)
   )
 
 ; Router

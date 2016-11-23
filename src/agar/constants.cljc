@@ -9,6 +9,9 @@
 (def max-y 1000)
 (def target-edibles 40)
 
+(def edible-colors ["grey"])
+(def player-colors ["pink" "yellow" "cyan"])
+
 ; Client
 
 (def cell-size 50)
