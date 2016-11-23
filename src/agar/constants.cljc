@@ -1,5 +1,14 @@
 (ns agar.constants)
 
-(def cell-size 50)
+; Server
 
 (def tick-interval 50)
+(def min-x -1000)
+(def min-y -1000)
+(def max-x 1000)
+(def max-y 1000)
+(def target-edibles 40)
+
+; Client
+
+(def cell-size 50)

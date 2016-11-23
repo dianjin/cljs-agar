@@ -7,12 +7,31 @@
     )
   )
 
+; Initial remote state
+
+(def edible-colors [
+  "grey",
+  ])
+
+(defn position->edible
+  [position]
+  {:color (rand-nth edible-colors) :position position}
+  )
+
+(defn initial-edibles
+  []
+  (let [positions (repeatedly constants/target-edibles #(physics/random-position))]
+    (map position->edible positions)
+    )
+  )
+
 ; Remote state
 
 (defonce remote
   (ref {
     :user-counter 0
     :users {}
+    :edibles (initial-edibles)
     })
   )
 
@@ -61,12 +80,14 @@
 (defn move-user
   [m uid {:keys [position velocity] :as user}]
   (let [
+    {x :x y :y} position
+    {vx :x vy :y} velocity
     delta constants/tick-interval
-    x (:x position) y (:y position)
-    vx (:x velocity) vy (:y velocity)
     dx (* delta vx) dy (* delta vy)
     x-prime (+ x dx) y-prime (+ y dy)
-    position-prime {:x x-prime :y y-prime}
+    x-prime-2 (if (physics/x-out-of-bounds? x-prime) x x-prime)
+    y-prime-2 (if (physics/y-out-of-bounds? y-prime) y y-prime)
+    position-prime {:x x-prime-2 :y y-prime-2}
     ]
     (assoc m uid (assoc user :position position-prime))
     )
