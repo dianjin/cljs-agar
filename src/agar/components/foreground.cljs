@@ -1,11 +1,10 @@
 (ns agar.components.foreground
   (:require
     [agar.constants :as constants]
-    [agar.model :as model]
     )
   )
 
-(defn connected-user
+(defn connected-player
   [{cx :x cy :y} {:keys [radius color]}]
   [:circle {
     :cx cx
@@ -15,7 +14,7 @@
     }]
   )
 
-(defn alien
+(defn body
   [{cx :x cy :y} {ox :x oy :y} radius color {x :x y :y}]
   (let [dx (- x ox) dy (- y oy)]
     [:circle {
@@ -27,34 +26,25 @@
     )
   )
 
-(defn other-user
+(defn other-player
   [center origin [uid {:keys [radius color position]}]]
-  (alien center origin radius color position)
+  (body center origin radius color position)
   )
 
 (defn edible
   [center origin {:keys [color position]}]
-  (alien center origin 5 color position)
+  (body center origin 5 color position)
   )
 
-(defn all-users
-  [center]
-  (let [
-    uid (:uid @model/state)
-    all-users (get-in @model/state [:remote :users])
-    edibles (get-in @model/state [:remote :edibles])
-    user (get all-users uid)
-    other-users (seq (dissoc all-users uid))
-    origin (:position user)
-    ]
-    (into [:g]
-      (reverse
-        (cons
-          (connected-user center user)
-          (concat
-            (map (partial other-user center origin) other-users)
-            (map (partial edible center origin) edibles)
-            )
+(defn all-bodies
+  [center {origin :position :as player} other-players edibles]
+  (into [:g]
+    (reverse
+      (cons
+        (connected-player center player)
+        (concat
+          (map (partial other-player center origin) other-players)
+          (map (partial edible center origin) edibles)
           )
         )
       )

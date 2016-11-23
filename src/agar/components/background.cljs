@@ -1,6 +1,5 @@
 (ns agar.components.background
   (:require
-    [agar.model :as model]
     [agar.constants :as constants]
     )
   )
@@ -11,10 +10,8 @@
   })
 
 (defn grid
-  [width height]
+  [width height {:keys [position]}]
   (let [
-    uid (:uid @model/state)
-    position (get-in @model/state [:remote :users uid :position])
     {origin-x :x origin-y :y} position
     x-offset (- 0 (rem origin-x constants/cell-size))
     y-offset (- 0 (rem origin-y constants/cell-size))
