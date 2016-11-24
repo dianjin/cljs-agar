@@ -4,17 +4,38 @@
     )
   )
 
+(def border-attrs {
+  :stroke constants/line-color
+  :stroke-width 3
+  })
+
+(defn borders
+  [{cx :x cy :y} {{ox :x oy :y} :position}]
+  (let [
+    x1 (- cx (- ox constants/min-x))
+    x2 (- cx (- ox constants/max-x))
+    y1 (- cy (- oy constants/min-y))
+    y2 (- cy (- oy constants/max-y))
+    ]
+    [:g
+      [:line (merge border-attrs {:x1 x1 :x2 x2 :y1 y1 :y2 y1})]
+      [:line (merge border-attrs {:x1 x1 :x2 x2 :y1 y2 :y2 y2})]
+      [:line (merge border-attrs {:x1 x1 :x2 x1 :y1 y1 :y2 y2})]
+      [:line (merge border-attrs {:x1 x2 :x2 x2 :y1 y1 :y2 y2})]
+      ]
+    )
+  )
+
 (def line-attrs {
-  :stroke "#ccc"
+  :stroke constants/line-color
   :stroke-width 1
   })
 
 (defn grid
-  [width height {:keys [position]}]
+  [width height {{ox :x oy :y} :position}]
   (let [
-    {origin-x :x origin-y :y} position
-    x-offset (- 0 (rem origin-x constants/cell-size))
-    y-offset (- 0 (rem origin-y constants/cell-size))
+    x-offset (- 0 (rem ox constants/cell-size))
+    y-offset (- 0 (rem oy constants/cell-size))
     coord-mapper #(* constants/cell-size %)
     x-repetitions (+ 2 (quot width constants/cell-size))
     x-list (map coord-mapper (range x-repetitions))

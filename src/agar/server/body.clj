@@ -44,15 +44,15 @@
   })
 
 (defn move-player
-  [m uid {:keys [position velocity] :as player}]
+  [m uid {:keys [position velocity radius] :as player}]
   (let [
     {x :x y :y} position
     {vx :x vy :y} velocity
     delta constants/tick-interval
     dx (* delta vx) dy (* delta vy)
     x-prime (+ x dx) y-prime (+ y dy)
-    x-prime-2 (if (physics/x-out-of-bounds? x-prime) x x-prime)
-    y-prime-2 (if (physics/y-out-of-bounds? y-prime) y y-prime)
+    x-prime-2 (if (physics/x-out-of-bounds? radius x-prime) x x-prime)
+    y-prime-2 (if (physics/y-out-of-bounds? radius y-prime) y y-prime)
     position-prime {:x x-prime-2 :y y-prime-2}
     ]
     (assoc m uid (assoc player :position position-prime))
