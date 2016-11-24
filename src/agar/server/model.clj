@@ -1,7 +1,7 @@
 (ns agar.server.model
   (:require
     [agar.server.body :as body]
-    [agar.server.physics :as physics]
+    [agar.physics :as physics]
     )
   )
 
