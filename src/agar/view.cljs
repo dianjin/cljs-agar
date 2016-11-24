@@ -26,7 +26,7 @@
 ; Views
 
 (defn render-svg
-  [uid {:keys [players edibles]}]
+  [uid {:keys [players]}]
   (let [
     other-players (seq (dissoc players uid))
     player (get players uid)
@@ -41,7 +41,7 @@
       :height height
       }
       (background/grid width height player)
-      (foreground/all-bodies center player other-players edibles)
+      (foreground/all-bodies center player other-players)
       ]
     )
   )

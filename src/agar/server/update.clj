@@ -50,7 +50,7 @@
   (dosync
     (alter
       model/remote
-      #(-> % model/move-players)
+      #(-> % model/move-players model/eat-players)
       )
     )
   )

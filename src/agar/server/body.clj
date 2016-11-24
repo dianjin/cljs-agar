@@ -12,16 +12,21 @@
 (defn position->edible
   [position] {
     :color (rand-nth constants/edible-colors)
+    :radius constants/initial-edible-radius
     :position position
+    :velocity {:x 0.0 :y 0.0}
   })
 
 (defn initial-edibles
   []
-  (map
-    position->edible
-    (repeatedly
-      constants/target-edibles
-      #(physics/random-position)
+  (apply
+    merge
+    (map-indexed
+      (fn [idx pos] {(str "e-" idx) (position->edible pos)})
+      (repeatedly
+        constants/target-edibles
+        #(physics/random-position)
+        )
       )
     )
   )
@@ -32,10 +37,9 @@
 
 (defn default-player
   [uid] {
-    :name (str "Anonymous " uid)
     :position {:x 0.0 :y 0.0}
     :velocity {:x 0.0 :y 0.0}
-    :radius 10
+    :radius constants/initial-player-radius
     :color (get constants/player-colors (rem uid (count constants/player-colors)))
   })
 
@@ -68,5 +72,27 @@
       :velocity
       {:x (* scaler x) :y (* scaler y)}
       )
+    )
+  )
+
+(defn remove-eatens
+  [ids players]
+  (reduce
+    (fn [m id]
+      (dissoc m id)
+      )
+    players
+    ids
+    )
+  )
+
+(defn augment-eaters
+  [ids players]
+  (reduce
+    (fn [m id]
+      (update-in m [id :radius] #(+ constants/radius-boost %))
+      )
+    players
+    ids
     )
   )

@@ -31,21 +31,13 @@
   (body center origin radius color position)
   )
 
-(defn edible
-  [center origin {:keys [color position]}]
-  (body center origin 5 color position)
-  )
-
 (defn all-bodies
-  [center {origin :position :as player} other-players edibles]
+  [center {origin :position :as player} other-players]
   (into [:g]
     (reverse
       (cons
         (connected-player center player)
-        (concat
-          (map (partial other-player center origin) other-players)
-          (map (partial edible center origin) edibles)
-          )
+        (map (partial other-player center origin) other-players)
         )
       )
     )

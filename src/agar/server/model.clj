@@ -1,6 +1,7 @@
 (ns agar.server.model
   (:require
     [agar.server.body :as body]
+    [agar.server.physics :as physics]
     )
   )
 
@@ -9,12 +10,25 @@
 (defonce remote
   (ref {
     :player-counter 0
-    :players {}
-    :edibles (body/initial-edibles)
+    :players (body/initial-edibles)
     })
   )
 
 ; Remote updaters
+
+(defn eat-players
+  [{:keys [players] :as remote}]
+  (let [pairs (physics/overlapping-pairs (seq players) [])]
+    (update
+      remote
+      :players
+      #(-> %
+        ((partial body/remove-eatens (map first pairs)))
+        ((partial body/augment-eaters (map second pairs)))
+        )
+      )
+    )
+  )
 
 (defn move-players
   [remote]

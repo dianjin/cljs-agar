@@ -8,6 +8,9 @@
 (def max-x 1000)
 (def max-y 1000)
 (def target-edibles 40)
+(def radius-boost 1)
+(def initial-edible-radius 7)
+(def initial-player-radius 10)
 
 (def edible-colors ["grey"])
 (def player-colors ["pink" "yellow" "cyan"])
