@@ -2,6 +2,7 @@
   (:require
     [agar.model :as model]
     [agar.communication :as communication]
+    [agar.constants :as constants]
     [agar.components.background :as background]
     [agar.components.foreground :as foreground]
     [agar.physics :as physics]
@@ -42,6 +43,7 @@
       :height height
       }
       (background/grid width height player)
+      (background/borders center player)
       (foreground/all-bodies center player other-players)
       ]
     )
@@ -68,7 +70,11 @@
 (defn main
   []
   (let [{:keys [remote uid]} @model/state]
-    [:div
+    [:div {
+      :style {
+        :background-color constants/background-color
+        }
+      }
       (render-svg uid remote)
       (control-panel uid remote)
       ]

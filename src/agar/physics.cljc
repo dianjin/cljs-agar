@@ -50,13 +50,19 @@
   })
 
 (defn x-out-of-bounds?
-  [x]
-  (or (< x constants/min-x) (> x constants/max-x))
+  [radius x]
+  (or
+    (< (- x radius) constants/min-x)
+    (> (+ x radius) constants/max-x)
+    )
   )
 
 (defn y-out-of-bounds?
-  [y]
-  (or (< y constants/min-y) (> y constants/max-y))
+  [radius y]
+  (or
+    (< (- y radius) constants/min-y)
+    (> (+ y radius) constants/max-y)
+    )
   )
 
 (defn overlapping?
