@@ -32,7 +32,7 @@
   )
 
 (defn edible
-  [center origin {:keys [color position]}]
+  [center origin [_ {:keys [color position]}]]
   (body center origin 5 color position)
   )
 

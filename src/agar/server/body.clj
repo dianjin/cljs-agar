@@ -12,16 +12,25 @@
 (defn position->edible
   [position] {
     :color (rand-nth constants/edible-colors)
+    :radius 5
     :position position
   })
 
 (defn initial-edibles
   []
-  (map
-    position->edible
-    (repeatedly
-      constants/target-edibles
-      #(physics/random-position)
+  (reduce
+    (fn [m [idx pos]]
+      (assoc m idx (position->edible pos))
+      )
+    {}
+    (map-indexed
+      (fn [idx pos]
+        [idx pos]
+        )
+      (repeatedly
+        constants/target-edibles
+        #(physics/random-position)
+        )
       )
     )
   )

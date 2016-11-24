@@ -46,3 +46,30 @@
     (> y constants/max-y)
     )
   )
+
+(defn is-overlapping?
+	[[uid-1 {p1 :position r-small :radius}] [uid-2 {p2 :position r-big :radius}]]
+	(<= (distance p1 p2) r-big)
+	)
+
+(defn overlapping-pairs
+	[list-bodies current-overlapping-pairs]
+	(if (<= (count list-bodies) 1)
+		current-overlapping-pairs
+		(let [[head & rest] list-bodies]
+			(recur
+				rest
+				(concat
+					(filter
+						(partial apply is-overlapping?)
+						(map
+              (fn [b] (sort-by #(:radius (second %)) [head b]))
+              rest
+              )
+						)
+					current-overlapping-pairs
+					)
+				)
+			)
+		)
+	)

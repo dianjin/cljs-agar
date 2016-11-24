@@ -1,6 +1,7 @@
 (ns agar.server.model
   (:require
     [agar.server.body :as body]
+    [agar.server.physics :as physics]
     )
   )
 
@@ -11,10 +12,25 @@
     :player-counter 0
     :players {}
     :edibles (body/initial-edibles)
+    :overlapping-pairs []
     })
   )
 
 ; Remote updaters
+
+(defn set-overlapping-pairs
+  [{:keys [edibles players] :as remote}]
+  (let [players-seq (seq players) edibles-seq (seq edibles)]
+    (assoc
+      remote
+      :overlapping-pairs
+      (physics/overlapping-pairs
+        (concat players-seq edibles-seq)
+        []
+        )
+      )
+    )
+  )
 
 (defn move-players
   [remote]
