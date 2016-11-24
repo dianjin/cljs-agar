@@ -1,4 +1,4 @@
-(ns agar.server.physics
+(ns agar.physics
   (:require
     [agar.constants :as constants]
     )
@@ -11,10 +11,13 @@
     )
   )
 
-(defn radius-ratio->scaler
-  [radius ratio]
-  (let [max-speed (* 0.12 (/ 1 radius))]
-    (* ratio max-speed)
+(defn radius->max-speed
+  [radius]
+  (let [radius-diff (- radius constants/initial-player-radius)]
+    (-
+      constants/base-speed
+      (* constants/speed-drop-per-radius radius-diff)
+      )
     )
   )
 
@@ -22,6 +25,21 @@
   [{x1 :x y1 :y} {x2 :x y2 :y}]
   (let [dx (- x2 x1) dy (- y2 y1)]
     (Math/sqrt (+ (Math/pow dx 2) (Math/pow dy 2)))
+    )
+  )
+
+(defn magnitude
+  [vector]
+  (distance {:x 0 :y 0} vector)
+  )
+
+(defn norm
+  [{:keys [x y] :as vector}]
+  (let [size (magnitude vector)]
+    (if (zero? size)
+      {:x 0 :y 0}
+      {:x (/ x size) :y (/ y size)}
+      )
     )
   )
 

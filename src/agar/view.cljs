@@ -4,6 +4,7 @@
     [agar.communication :as communication]
     [agar.components.background :as background]
     [agar.components.foreground :as foreground]
+    [agar.physics :as physics]
     [clojure.string :as string]
     [goog.events :as events]
     [goog.events.KeyCodes :as KeyCodes]
@@ -48,7 +49,7 @@
 
 (defn control-panel
   [uid {:keys [players]}]
-  (let [player (get players uid)]
+  (let [{:keys [position velocity]} (get players uid)]
     [:div {
       :style {
         :position "absolute" :top "0" :left "0"
@@ -57,8 +58,9 @@
         :color "white"
         }
       }
-      [:div (str "Position: " (:position player))]
-      [:div (str "Velocity: " (:velocity player))]
+      [:div (str "Position: " position)]
+      [:div (str "Velocity: " velocity)]
+      [:div (str "Speed: " (physics/magnitude velocity))]
       ]
     )
   )

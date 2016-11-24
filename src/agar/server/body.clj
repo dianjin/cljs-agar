@@ -1,6 +1,6 @@
 (ns agar.server.body
   (:require
-    [agar.server.physics :as physics]
+    [agar.physics :as physics]
     [agar.constants :as constants]
     )
   )
@@ -60,17 +60,17 @@
   )
 
 (defn steer-player
-  [{:keys [x y] :as mouse-from-origin} player]
+  [mouse-from-origin {:keys [radius] :as player}]
   (let [
-    {radius :radius} player
-    real-distance (physics/distance {:x 0 :y 0} mouse-from-origin)
-    ratio (if (< real-distance radius) 1 (/ radius real-distance))
-    scaler (physics/radius-ratio->scaler radius ratio)
+    {norm-x :x norm-y :y} (physics/norm mouse-from-origin)
+    distance (physics/magnitude mouse-from-origin)
+    ratio (if (< distance radius) (/ distance radius) 1)
+    max-speed (physics/radius->max-speed radius)
     ]
     (assoc
       player
       :velocity
-      {:x (* scaler x) :y (* scaler y)}
+      {:x (* max-speed ratio norm-x) :y (* max-speed ratio norm-y)}
       )
     )
   )
