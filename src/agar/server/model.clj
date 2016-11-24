@@ -10,23 +10,21 @@
 (defonce remote
   (ref {
     :player-counter 0
-    :players {}
-    :edibles (body/initial-edibles)
-    :overlapping-pairs []
+    :players (body/initial-edibles)
     })
   )
 
 ; Remote updaters
 
-(defn set-overlapping-pairs
-  [{:keys [edibles players] :as remote}]
-  (let [players-seq (seq players) edibles-seq (seq edibles)]
-    (assoc
+(defn eat-players
+  [{:keys [players] :as remote}]
+  (let [pairs (physics/overlapping-pairs (seq players) [])]
+    (update
       remote
-      :overlapping-pairs
-      (physics/overlapping-pairs
-        (concat players-seq edibles-seq)
-        []
+      :players
+      #(-> %
+        ((partial body/remove-eatens (map first pairs)))
+        ((partial body/augment-eaters (map second pairs)))
         )
       )
     )
