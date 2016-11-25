@@ -8,7 +8,7 @@
 (def max-x 1000)
 (def max-y 1000)
 (def radius-boost 0.5)
-(def target-edibles 100)
+(def target-edibles 80)
 (def initial-edible-radius 12)
 (def initial-player-radius 18)
 (def base-speed 0.15)

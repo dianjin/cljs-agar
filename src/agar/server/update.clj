@@ -35,6 +35,16 @@
     )
   )
 
+(defn start-play
+  [uid]
+  (dosync
+    (alter
+      model/remote
+      #(assoc-in % [:players uid :alive] true)
+      )
+    )
+  )
+
 (defn set-mouse-position
   [uid position]
   (dosync
@@ -50,7 +60,10 @@
   (dosync
     (alter
       model/remote
-      #(-> % model/move-players model/eat-players)
+      #(-> %
+        model/move-players
+        model/eat-players
+        )
       )
     )
   )

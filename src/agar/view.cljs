@@ -27,15 +27,33 @@
 
 ; Views
 
+(defn render-status
+  [uid remote center]
+  (let [alive (get-in remote [:players uid :alive])]
+    (if (not alive)
+      [:input {
+        :on-click #(communication/start-play)
+        :type "button"
+        :value "Play!"
+        :style {
+          :width 50
+          :position "absolute"
+          :top (+ (:y center) 30)
+          :left (- (:x center) 25)
+          :padding 10
+          }
+        }
+        ]
+        [:span]
+      )
+    )
+  )
+
 (defn render-svg
-  [uid {:keys [players]}]
+  [uid {:keys [players]} center width height]
   (let [
     other-players (seq (dissoc players uid))
     {:keys [alive] :as player} (get players uid)
-    window (-> (dom/getWindow) dom/getViewportSize)
-    width (.-width window)
-    height (.-height window)
-    center {:x (quot width 2) :y (quot height 2)}
     mouse-handler (if alive (partial mouse-move-handler center) #())
     ]
     [:svg {
@@ -50,33 +68,22 @@
     )
   )
 
-(defn control-panel
-  [uid {:keys [players]}]
-  (let [{:keys [position velocity]} (get players uid)]
-    [:div {
-      :style {
-        :position "absolute" :top "0" :left "0"
-        :background-color "black"
-        :padding "10px"
-        :color "white"
-        }
-      }
-      [:div (str "Position: " position)]
-      [:div (str "Velocity: " velocity)]
-      ]
-    )
-  )
-
 (defn main
   []
-  (let [{:keys [remote uid]} @model/state]
+  (let [
+    {:keys [remote uid]} @model/state
+    window (-> (dom/getWindow) dom/getViewportSize)
+    width (.-width window)
+    height (.-height window)
+    center {:x (quot width 2) :y (quot height 2)}
+    ]
     [:div {
       :style {
         :background-color constants/background-color
         }
       }
-      (render-svg uid remote)
-      (control-panel uid remote)
+      (render-svg uid remote center width height)
+      (render-status uid remote center)
       ]
     )
   )

@@ -118,6 +118,11 @@
 
 ; User triggered transitions
 
+(defmethod event :agar/start-play
+  [{:keys [uid]}]
+  (update/start-play uid)
+  )
+
 (defmethod event :agar/set-mouse-position
   [{:keys [uid ?data]}]
   (update/set-mouse-position uid ?data)

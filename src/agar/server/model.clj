@@ -26,8 +26,8 @@
       remote
       :players
       #(-> %
-        ((partial body/remove-eatens (map first pairs)))
-        ((partial body/augment-eaters (map second pairs)))
+        ((partial body/update-eatens (map first pairs)))
+        ((partial body/update-eaters (map second pairs)))
         )
       )
     )

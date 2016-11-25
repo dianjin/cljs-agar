@@ -40,7 +40,7 @@
 (defn default-player
   [uid] {
     :playable true
-    :alive true
+    :alive false
     :color (get constants/player-colors (rem uid (count constants/player-colors)))
     :position (physics/random-position constants/initial-player-radius)
     :velocity {:x 0.0 :y 0.0}
@@ -88,13 +88,22 @@
     )
   )
 
-(defn remove-eatens
+(defn reset-player-position
+  [{:keys [radius] :as player}]
+  (assoc
+    player
+    :position
+    (physics/random-position radius)
+    )
+  )
+
+(defn update-eatens
   [ids players]
   (reduce
     (fn [m id]
       (if (true? (get-in m [id :playable]))
         (update m id kill-player)
-        (dissoc m id)
+        (update m id reset-player-position)
         )
       )
     players
@@ -102,7 +111,7 @@
     )
   )
 
-(defn augment-eaters
+(defn update-eaters
   [ids players]
   (reduce
     (fn [m id]
