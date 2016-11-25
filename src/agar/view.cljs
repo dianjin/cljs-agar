@@ -31,14 +31,15 @@
   [uid {:keys [players]}]
   (let [
     other-players (seq (dissoc players uid))
-    player (get players uid)
+    {:keys [alive] :as player} (get players uid)
     window (-> (dom/getWindow) dom/getViewportSize)
     width (.-width window)
     height (.-height window)
     center {:x (quot width 2) :y (quot height 2)}
+    mouse-handler (if alive (partial mouse-move-handler center) #())
     ]
     [:svg {
-      :on-mouse-move (partial mouse-move-handler center)
+      :on-mouse-move mouse-handler
       :width width
       :height height
       }
@@ -62,7 +63,6 @@
       }
       [:div (str "Position: " position)]
       [:div (str "Velocity: " velocity)]
-      [:div (str "Speed: " (physics/magnitude velocity))]
       ]
     )
   )

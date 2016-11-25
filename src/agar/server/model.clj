@@ -18,7 +18,10 @@
 
 (defn eat-players
   [{:keys [players] :as remote}]
-  (let [pairs (physics/overlapping-pairs (seq players) [])]
+  (let [
+    alive-players (filter (fn [[_ {a :alive}]] a) players)
+    pairs (physics/overlapping-pairs alive-players [])
+    ]
     (update
       remote
       :players

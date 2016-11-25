@@ -4,31 +4,17 @@
     )
   )
 
-(defn connected-player
-  [{cx :x cy :y} {:keys [radius color]}]
-  [:circle {
-    :cx cx
-    :cy cy
-    :r radius
-    :fill color
-    }]
-  )
-
 (defn body
-  [{cx :x cy :y} {ox :x oy :y} radius color {x :x y :y}]
-  (let [dx (- x ox) dy (- y oy)]
+  [{cx :x cy :y} {ox :x oy :y} {:keys [position alive color radius]}]
+  (let [dx (- (:x position) ox) dy (- (:y position) oy)]
     [:circle {
       :cx (+ cx dx)
       :cy (+ cy dy)
       :r radius
       :fill color
+      :fill-opacity (if alive 1 0.5)
       }]
     )
-  )
-
-(defn other-player
-  [center origin [uid {:keys [radius color position]}]]
-  (body center origin radius color position)
   )
 
 (defn all-bodies
@@ -36,8 +22,11 @@
   (into [:g]
     (reverse
       (cons
-        (connected-player center player)
-        (map (partial other-player center origin) other-players)
+        (body center origin player)
+        (map
+          (fn [[_ other-player]] (body center origin other-player))
+          other-players
+          )
         )
       )
     )

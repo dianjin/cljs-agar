@@ -44,10 +44,17 @@
   )
 
 (defn random-position
-  [] {
-    :x (rand-int-between constants/min-x constants/max-x)
-    :y (rand-int-between constants/min-y constants/max-y)
-  })
+  [radius]
+  (let [
+    min-x (+ constants/min-x radius)
+    max-x (- constants/max-x radius)
+    min-y (+ constants/min-y radius)
+    max-y (- constants/max-y radius)
+    ] {
+      :x (rand-int-between min-x max-x)
+      :y (rand-int-between min-y max-y)
+    })
+  )
 
 (defn x-out-of-bounds?
   [radius x]

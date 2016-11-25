@@ -42,7 +42,7 @@
 (defmethod event-msg-handler :chsk/recv
   [{:as ev-msg :keys [?data]}]
   (let [data (second ?data)]
-    (println (:overlapping-pairs data))
+    ; (println data)
     (model/remote! data)
     )
   )
