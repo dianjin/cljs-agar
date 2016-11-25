@@ -11,10 +11,12 @@
 
 (defn position->edible
   [position] {
+    :playable false
+    :alive true
     :color (rand-nth constants/edible-colors)
-    :radius constants/initial-edible-radius
     :position position
     :velocity {:x 0.0 :y 0.0}
+    :radius constants/initial-edible-radius
   })
 
 (defn initial-edibles
@@ -25,7 +27,7 @@
       (fn [idx pos] {(str "e-" idx) (position->edible pos)})
       (repeatedly
         constants/target-edibles
-        #(physics/random-position)
+        #(physics/random-position constants/initial-edible-radius)
         )
       )
     )
@@ -37,10 +39,12 @@
 
 (defn default-player
   [uid] {
-    :position {:x 0.0 :y 0.0}
+    :playable true
+    :alive true
+    :color (get constants/player-colors (rem uid (count constants/player-colors)))
+    :position (physics/random-position constants/initial-player-radius)
     :velocity {:x 0.0 :y 0.0}
     :radius constants/initial-player-radius
-    :color (get constants/player-colors (rem uid (count constants/player-colors)))
   })
 
 (defn move-player
@@ -75,11 +79,23 @@
     )
   )
 
+(defn kill-player
+  [player]
+  (assoc
+    player
+    :alive false
+    :velocity {:x 0 :y 0}
+    )
+  )
+
 (defn remove-eatens
   [ids players]
   (reduce
     (fn [m id]
-      (dissoc m id)
+      (if (true? (get-in m [id :playable]))
+        (update m id kill-player)
+        (dissoc m id)
+        )
       )
     players
     ids

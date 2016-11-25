@@ -4,24 +4,26 @@
     )
   )
 
-(def border-attrs {
-  :stroke constants/line-color
-  :stroke-width 3
+(def rect-attrs {
+  :fill constants/line-color
+  :fill-opacity 0.5
   })
 
 (defn borders
   [{cx :x cy :y} {{ox :x oy :y} :position}]
   (let [
-    x1 (- cx (- ox constants/min-x))
+    x1 (max 0 (- cx (- ox constants/min-x)))
     x2 (- cx (- ox constants/max-x))
-    y1 (- cy (- oy constants/min-y))
+    y1 (max 0 (- cy (- oy constants/min-y)))
     y2 (- cy (- oy constants/max-y))
+    width (- constants/max-x constants/min-x)
+    height (- constants/max-y constants/min-y)
     ]
     [:g
-      [:line (merge border-attrs {:x1 x1 :x2 x2 :y1 y1 :y2 y1})]
-      [:line (merge border-attrs {:x1 x1 :x2 x2 :y1 y2 :y2 y2})]
-      [:line (merge border-attrs {:x1 x1 :x2 x1 :y1 y1 :y2 y2})]
-      [:line (merge border-attrs {:x1 x2 :x2 x2 :y1 y1 :y2 y2})]
+      [:rect (merge rect-attrs {:x 0 :y 0 :width width :height y1})]
+      [:rect (merge rect-attrs {:x 0 :y y1 :width x1 :height height})]
+      [:rect (merge rect-attrs {:x x2 :y y1 :width width :height y2})]
+      [:rect (merge rect-attrs {:x x1 :y y2 :width width :height y2})]
       ]
     )
   )
@@ -34,17 +36,18 @@
 (defn grid
   [width height {{ox :x oy :y} :position}]
   (let [
-    x-offset (- 0 (rem ox constants/cell-size))
-    y-offset (- 0 (rem oy constants/cell-size))
-    coord-mapper #(* constants/cell-size %)
+    mid-x (quot width 2) mid-y (quot height 2)
+    x-offset (- 0 (rem (- ox mid-x) constants/cell-size))
+    y-offset (- 0 (rem (- oy mid-y) constants/cell-size))
+    coord-mapper (fn [idx coord] [idx (* constants/cell-size coord)])
     x-repetitions (+ 2 (quot width constants/cell-size))
-    x-list (map coord-mapper (range x-repetitions))
+    x-list (map-indexed coord-mapper (range x-repetitions))
     y-repetitions (+ 2 (quot height constants/cell-size))
-    y-list (map coord-mapper (range y-repetitions))
+    y-list (map-indexed coord-mapper (range y-repetitions))
     ]
     [:g
-      (for [x x-list]
-        ^{:key x}
+      (for [[idx x] x-list]
+        ^{:key (str "x-" idx)}
         [:line
           (merge
             line-attrs {
@@ -54,8 +57,8 @@
             )
           ]
         )
-      (for [y y-list]
-        ^{:key y}
+      (for [[idx y] y-list]
+        ^{:key (str "y-" idx)}
         [:line
           (merge
             line-attrs {
