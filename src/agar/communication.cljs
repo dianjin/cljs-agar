@@ -49,6 +49,11 @@
 
 ; Messages to server
 
+(defn start-play
+  []
+  (chsk-send! [:agar/start-play])
+  )
+
 (defn set-mouse-position
   [position]
   (chsk-send! [:agar/set-mouse-position position])
