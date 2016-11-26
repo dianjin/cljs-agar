@@ -123,6 +123,11 @@
   (update/start-play uid)
   )
 
+(defmethod event :agar/add-cpu
+  [_]
+  (update/add-cpu)
+  )
+
 (defmethod event :agar/set-mouse-position
   [{:keys [uid ?data]}]
   (update/set-mouse-position uid ?data)

@@ -19,8 +19,8 @@
 (defn eat-players
   [{:keys [players] :as remote}]
   (let [
-    alive-players (filter (fn [[_ {a :alive}]] a) players)
-    pairs (physics/overlapping-pairs alive-players [])
+    edible-players (filter (fn [[_ p]] (body/edible? p)) players)
+    pairs (physics/overlapping-pairs edible-players [])
     ]
     (update
       remote
@@ -30,6 +30,30 @@
         ((partial body/update-eaters (map second pairs)))
         )
       )
+    )
+  )
+
+(defn steer-players
+  [remote]
+  (update
+    remote
+    :players
+    #(reduce-kv
+      (fn [m uid player]
+        (assoc m uid (body/steer-player % player))
+        )
+      {}
+      %
+      )
+    )
+  )
+
+(defn add-cpu
+  [{:keys [players player-counter] :as remote}]
+  (assoc
+    remote
+    :players (merge players {(inc player-counter) (body/default-cpu)})
+    :player-counter (inc player-counter)
     )
   )
 
@@ -47,7 +71,7 @@
   (update-in
     remote
     [:players uid]
-    #(body/steer-player mouse-from-origin %)
+    #(body/steer-player-towards mouse-from-origin %)
     )
   )
 

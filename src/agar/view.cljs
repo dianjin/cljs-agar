@@ -30,22 +30,27 @@
 (defn render-status
   [uid remote center]
   (let [alive (get-in remote [:players uid :alive])]
-    (if (not alive)
+    [:div {
+      :style {
+        :position "absolute"
+        :top 0
+        :left 0
+        :width "100%"
+        :padding 10
+        }
+      }
       [:input {
         :on-click #(communication/start-play)
         :type "button"
+        :disabled alive
         :value "Play!"
-        :style {
-          :width 50
-          :position "absolute"
-          :top (+ (:y center) 30)
-          :left (- (:x center) 25)
-          :padding 10
-          }
-        }
-        ]
-        [:span]
-      )
+        }]
+      [:input {
+        :on-click #(communication/add-cpu)
+        :type "button"
+        :value "Add CPU!"
+        }]
+      ]
     )
   )
 

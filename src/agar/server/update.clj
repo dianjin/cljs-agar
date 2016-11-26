@@ -45,6 +45,16 @@
     )
   )
 
+(defn add-cpu
+  []
+  (dosync
+    (alter
+      model/remote
+      #(model/add-cpu %)
+      )
+    )
+  )
+
 (defn set-mouse-position
   [uid position]
   (dosync
@@ -61,6 +71,7 @@
     (alter
       model/remote
       #(-> %
+        model/steer-players
         model/move-players
         model/eat-players
         )
