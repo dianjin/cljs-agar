@@ -13,12 +13,7 @@
 
 (defn radius->max-speed
   [radius]
-  (let [radius-diff (- radius constants/player-radius)]
-    (-
-      constants/base-speed
-      (* constants/speed-drop-per-radius radius-diff)
-      )
-    )
+  (* constants/inverse-radius-speed-factor (/ 1 radius))
   )
 
 (defn vector-from-to

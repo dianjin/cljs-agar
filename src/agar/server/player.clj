@@ -17,7 +17,7 @@
     ] {
       :type type
       :alive alive
-      :color (rand-nth constants/edible-colors)
+      :color (rand-nth constants/player-colors)
       :position (physics/random-position radius)
       :velocity {:x 0.0 :y 0.0}
       :radius radius
