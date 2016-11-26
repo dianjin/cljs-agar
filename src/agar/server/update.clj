@@ -30,7 +30,7 @@
   (dosync
     (alter
       model/remote
-      #(update-in % [:players] dissoc uid)
+      (partial model/remove-player uid)
       )
     )
   )
@@ -41,6 +41,16 @@
     (alter
       model/remote
       #(assoc-in % [:players uid :alive] true)
+      )
+    )
+  )
+
+(defn add-cpu
+  [uid]
+  (dosync
+    (alter
+      model/remote
+      (partial model/add-cpu uid)
       )
     )
   )
@@ -61,6 +71,7 @@
     (alter
       model/remote
       #(-> %
+        model/steer-cpus
         model/move-players
         model/eat-players
         )

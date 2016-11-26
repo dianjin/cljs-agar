@@ -13,17 +13,17 @@
 
 (defn radius->max-speed
   [radius]
-  (let [radius-diff (- radius constants/initial-player-radius)]
-    (-
-      constants/base-speed
-      (* constants/speed-drop-per-radius radius-diff)
-      )
-    )
+  (* constants/inverse-radius-speed-factor (/ 1 radius))
+  )
+
+(defn vector-from-to
+  [{from-x :x from-y :y} {to-x :x to-y :y}]
+  {:x (- to-x from-x) :y (- to-y from-y)}
   )
 
 (defn distance
-  [{x1 :x y1 :y} {x2 :x y2 :y}]
-  (let [dx (- x2 x1) dy (- y2 y1)]
+  [from to]
+  (let [{dx :x dy :y} (vector-from-to from to)]
     (Math/sqrt (+ (Math/pow dx 2) (Math/pow dy 2)))
     )
   )
@@ -33,7 +33,12 @@
   (distance {:x 0 :y 0} vector)
   )
 
-(defn norm
+(defn faster?
+  [v1 v2]
+  (> (magnitude v1) (magnitude v2))
+  )
+
+(defn normalize
   [{:keys [x y] :as vector}]
   (let [size (magnitude vector)]
     (if (zero? size)

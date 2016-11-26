@@ -54,6 +54,11 @@
   (chsk-send! [:agar/start-play])
   )
 
+(defn add-cpu
+  []
+  (chsk-send! [:agar/add-cpu])
+  )
+
 (defn set-mouse-position
   [position]
   (chsk-send! [:agar/set-mouse-position position])

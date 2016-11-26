@@ -1,10 +1,11 @@
 (ns agar.view
   (:require
-    [agar.model :as model]
     [agar.communication :as communication]
-    [agar.constants :as constants]
     [agar.components.background :as background]
     [agar.components.foreground :as foreground]
+    [agar.components.information :as information]
+    [agar.constants :as constants]
+    [agar.model :as model]
     [agar.physics :as physics]
     [clojure.string :as string]
     [goog.events :as events]
@@ -27,26 +28,9 @@
 
 ; Views
 
-(defn render-status
-  [uid remote center]
-  (let [alive (get-in remote [:players uid :alive])]
-    (if (not alive)
-      [:input {
-        :on-click #(communication/start-play)
-        :type "button"
-        :value "Play!"
-        :style {
-          :width 50
-          :position "absolute"
-          :top (+ (:y center) 30)
-          :left (- (:x center) 25)
-          :padding 10
-          }
-        }
-        ]
-        [:span]
-      )
-    )
+(defn render-information
+  [uid players]
+  (information/status uid players)
   )
 
 (defn render-svg
@@ -83,7 +67,7 @@
         }
       }
       (render-svg uid remote center width height)
-      (render-status uid remote center)
+      (render-information uid (:players remote))
       ]
     )
   )
