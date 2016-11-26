@@ -89,10 +89,10 @@
   )
 
 (defn steer-cpu
-  [players {:keys [position] :as player}]
-  (-> (:position (most-edible players player))
+  [players {:keys [position alive] :as cpu}]
+  (-> (:position (most-edible players cpu))
     (#(physics/vector-from-to position %))
-    (#(steer-player-towards % player))
+    (#(steer-player-towards % cpu))
     )
   )
 
@@ -164,8 +164,9 @@
   (reduce
     (fn [p-map id]
       (case (get-in p-map [id :type])
+        :user (update p-map id kill-player)
+        :cpu (dissoc p-map id)
         :edible (update p-map id reset-player-position)
-        (update p-map id kill-player)
         )
       )
     players
