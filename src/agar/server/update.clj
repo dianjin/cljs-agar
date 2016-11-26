@@ -7,10 +7,7 @@
 (defn next-uid
   [_]
   (dosync
-    (alter
-      model/remote
-      #(update % :player-counter inc)
-      )
+    (alter model/remote #(update % :player-counter inc))
     )
   (@model/remote :player-counter)
   )
@@ -18,50 +15,35 @@
 (defn add-player
   [uid]
   (dosync
-    (alter
-      model/remote
-      (partial model/add-player uid)
-      )
+    (alter model/remote (partial model/add-player uid))
     )
   )
 
 (defn remove-player
   [uid]
   (dosync
-    (alter
-      model/remote
-      (partial model/remove-player uid)
-      )
+    (alter model/remote (partial model/remove-player uid))
     )
   )
 
 (defn start-play
   [uid]
   (dosync
-    (alter
-      model/remote
-      #(assoc-in % [:players uid :alive] true)
-      )
+    (alter model/remote #(assoc-in % [:players uid :alive] true))
     )
   )
 
 (defn add-cpu
   [uid]
   (dosync
-    (alter
-      model/remote
-      (partial model/add-cpu uid)
-      )
+    (alter model/remote (partial model/add-cpu uid))
     )
   )
 
-(defn set-mouse-position
+(defn steer-user
   [uid position]
   (dosync
-    (alter
-      model/remote
-      (partial model/set-mouse-position uid position)
-      )
+    (alter model/remote (partial model/steer-user uid position))
     )
   )
 

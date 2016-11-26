@@ -8,5 +8,5 @@
 
 (r/render-component
   [view/main]
-  (. js/document (getElementById "app"))
+  (.getElementById js/document "app")
   )

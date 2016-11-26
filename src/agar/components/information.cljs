@@ -62,8 +62,7 @@
         ]
       [:span {:style button-style}
         (str
-          (count cpus)
-          " CPU players"
+          (count cpus) " CPU players"
           )
         ]
       ]
