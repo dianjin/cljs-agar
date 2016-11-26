@@ -52,7 +52,7 @@
   []
   (let [
     {:keys [remote uid]} @model/state
-    window (-> (dom/getWindow) dom/getViewportSize)
+    window (dom/getViewportSize (dom/getWindow))
     width (.-width window)
     height (.-height window)
     center {:x (quot width 2) :y (quot height 2)}

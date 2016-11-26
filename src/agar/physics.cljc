@@ -23,7 +23,7 @@
 (defn distance
   [from to]
   (let [{dx :x dy :y} (vector-from-to from to)]
-    (Math/sqrt (+ (Math/pow dx 2) (Math/pow dy 2)))
+    (Math/hypot dx dy)
     )
   )
 
