@@ -3,12 +3,12 @@
 ; Server
 
 (def tick-interval 50)
-(def min-x -1000)
-(def min-y -1000)
-(def max-x 1000)
-(def max-y 1000)
+(def min-x -750)
+(def min-y -750)
+(def max-x 750)
+(def max-y 750)
 (def radius-boost 0.5)
-(def target-edibles 80)
+(def target-edibles 60)
 (def edible-radius 12)
 (def player-radius 18)
 (def base-speed 0.15)
@@ -31,7 +31,7 @@
 (defn type->radius
   [type]
   (case type
-    :player 18
+    :user 18
     :cpu 18
     :edible 12
     )
@@ -40,7 +40,7 @@
 (defn type->alive
   [type]
   (case type
-    :player false
+    :user false
     :cpu true
     :edible true
     )

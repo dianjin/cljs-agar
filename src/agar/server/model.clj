@@ -1,6 +1,6 @@
 (ns agar.server.model
   (:require
-    [agar.server.body :as body]
+    [agar.server.player :as player]
     [agar.physics :as physics]
     )
   )
@@ -10,7 +10,7 @@
 (defonce remote
   (ref {
     :player-counter 0
-    :players (body/initial-edibles)
+    :players (player/initial-edibles)
     })
   )
 
@@ -19,32 +19,26 @@
 (defn eat-players
   [{:keys [players] :as remote}]
   (let [
-    edible-players (filter (fn [[_ p]] (body/edible? p)) players)
+    edible-players (filter (fn [[_ p]] (player/edible? p)) players)
     pairs (physics/overlapping-pairs edible-players [])
     ]
     (update
       remote
       :players
       #(-> %
-        ((partial body/update-eatens (map first pairs)))
-        ((partial body/update-eaters (map second pairs)))
+        ((partial player/update-eatens (map first pairs)))
+        ((partial player/update-eaters (map second pairs)))
         )
       )
     )
   )
 
-(defn steer-players
+(defn steer-cpus
   [remote]
   (update
     remote
     :players
-    #(reduce-kv
-      (fn [m uid player]
-        (assoc m uid (body/steer-player % player))
-        )
-      {}
-      %
-      )
+    #(player/steer-cpus %)
     )
   )
 
@@ -53,10 +47,7 @@
   (assoc
     remote
     :players
-    (merge
-      players
-      {(inc player-counter) (body/type->player :cpu)}
-      )
+    (merge players {(inc player-counter) (player/type->player :cpu)})
     :player-counter
     (inc player-counter)
     )
@@ -67,16 +58,21 @@
   (update
     remote
     :players
-    #(reduce-kv body/move-player {} %)
+    #(player/move-players %)
     )
   )
 
 (defn set-mouse-position
-  [uid mouse-from-origin remote]
+  [uid pos-from-origin remote]
   (update-in
     remote
     [:players uid]
-    #(body/steer-player-towards mouse-from-origin %)
+    (fn [{:keys [alive] :as player}]
+      (if (not alive)
+        player
+        (player/steer-player-towards pos-from-origin player)
+        )
+      )
     )
   )
 
@@ -85,6 +81,6 @@
   (assoc-in
     remote
     [:players uid]
-    (body/type->player :player)
+    (player/type->player :user)
     )
   )

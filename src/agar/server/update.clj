@@ -71,7 +71,7 @@
     (alter
       model/remote
       #(-> %
-        model/steer-players
+        model/steer-cpus
         model/move-players
         model/eat-players
         )
