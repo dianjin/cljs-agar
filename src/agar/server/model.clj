@@ -43,13 +43,16 @@
   )
 
 (defn add-cpu
-  [{:keys [players player-counter] :as remote}]
-  (assoc
-    remote
-    :players
-    (merge players {(inc player-counter) (player/type->player :cpu)})
-    :player-counter
-    (inc player-counter)
+  [uid {:keys [players player-counter] :as remote}]
+  (let [
+    new-id (inc player-counter)
+    new-cpu (assoc (player/type->player :cpu) :creator uid)
+    ]
+    (assoc
+      remote
+      :players (merge players {new-id new-cpu})
+      :player-counter new-id
+      )
     )
   )
 
@@ -82,5 +85,14 @@
     remote
     [:players uid]
     (player/type->player :user)
+    )
+  )
+
+(defn remove-player
+  [uid remote]
+  (update
+    remote
+    :players
+    (partial player/remove-players uid)
     )
   )

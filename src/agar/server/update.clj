@@ -30,7 +30,7 @@
   (dosync
     (alter
       model/remote
-      #(update-in % [:players] dissoc uid)
+      (partial model/remove-player uid)
       )
     )
   )
@@ -46,11 +46,11 @@
   )
 
 (defn add-cpu
-  []
+  [uid]
   (dosync
     (alter
       model/remote
-      #(model/add-cpu %)
+      (partial model/add-cpu uid)
       )
     )
   )

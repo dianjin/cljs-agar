@@ -124,8 +124,8 @@
   )
 
 (defmethod event :agar/add-cpu
-  [_]
-  (update/add-cpu)
+  [{:keys [uid]}]
+  (update/add-cpu uid)
   )
 
 (defmethod event :agar/set-mouse-position

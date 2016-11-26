@@ -159,6 +159,20 @@
     )
   )
 
+(defn remove-players
+  [id-to-remove players]
+  (reduce-kv
+    (fn [p-map id {:keys [creator] :as player}]
+      (if (or (= id-to-remove id) (= id-to-remove creator))
+        p-map
+        (assoc p-map id player)
+        )
+      )
+    {}
+    players
+    )
+  )
+
 (defn update-eatens
   [ids players]
   (reduce
