@@ -46,7 +46,7 @@
   [uid {:keys [players player-counter] :as remote}]
   (let [
     new-id (inc player-counter)
-    new-cpu (assoc (player/type->player :cpu) :creator uid)
+    new-cpu (assoc (player/type->player new-id :cpu) :creator uid)
     ]
     (assoc
       remote
@@ -84,7 +84,7 @@
   (assoc-in
     remote
     [:players uid]
-    (player/type->player :user)
+    (player/type->player uid :user)
     )
   )
 

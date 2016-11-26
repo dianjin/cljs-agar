@@ -10,14 +10,15 @@
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
 
 (defn type->player
-  [type]
+  [id type]
   (let [
     radius (constants/type->radius type)
     alive (constants/type->alive type)
+    color-idx (rem id constants/num-colors)
     ] {
       :type type
       :alive alive
-      :color (rand-nth constants/player-colors)
+      :color (get constants/player-colors color-idx)
       :position (physics/random-position radius)
       :velocity {:x 0.0 :y 0.0}
       :radius radius
@@ -29,7 +30,7 @@
   (apply
     merge
     (map-indexed
-      (fn [idx pos] {(str "e-" idx) (type->player :edible)})
+      (fn [idx pos] {(str "e-" idx) (type->player idx :edible)})
       (range constants/target-edibles)
       )
     )

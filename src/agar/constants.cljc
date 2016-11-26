@@ -23,9 +23,10 @@
 ; Colors
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
 
-(def player-colors ["#64B5BA" "#FC537A" "#B0DFBA" "#F7B7AA"])
-(def line-color "#64B5BA")
-(def background-color "#E9EACA")
+(def player-colors ["#4EB3DE" "#8DE0A6" "#FEDD30" "#f8875f" "#ff79b2"])
+(def num-colors (count player-colors))
+(def line-color "#4EB3DE")
+(def background-color "white")
 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
 ; Player constants
