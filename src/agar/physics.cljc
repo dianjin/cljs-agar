@@ -13,7 +13,7 @@
 
 (defn radius->max-speed
   [radius]
-  (let [radius-diff (- radius constants/initial-player-radius)]
+  (let [radius-diff (- radius constants/player-radius)]
     (-
       constants/base-speed
       (* constants/speed-drop-per-radius radius-diff)
@@ -43,7 +43,7 @@
   (> (magnitude v1) (magnitude v2))
   )
 
-(defn norm
+(defn normalize
   [{:keys [x y] :as vector}]
   (let [size (magnitude vector)]
     (if (zero? size)

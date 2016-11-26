@@ -52,8 +52,13 @@
   [{:keys [players player-counter] :as remote}]
   (assoc
     remote
-    :players (merge players {(inc player-counter) (body/default-cpu)})
-    :player-counter (inc player-counter)
+    :players
+    (merge
+      players
+      {(inc player-counter) (body/type->player :cpu)}
+      )
+    :player-counter
+    (inc player-counter)
     )
   )
 
@@ -80,6 +85,6 @@
   (assoc-in
     remote
     [:players uid]
-    (body/default-player uid)
+    (body/type->player :player)
     )
   )

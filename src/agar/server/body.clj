@@ -6,13 +6,31 @@
   )
 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
+; Creators
+; ~~~~~~~~~~~~~~~~~~~~~~~~
+(defn type->player
+  [type]
+  (let [
+    radius (constants/type->radius type)
+    alive (constants/type->alive type)
+    ] {
+      :type type
+      :alive alive
+      :color (rand-nth constants/edible-colors)
+      :position (physics/random-position radius)
+      :velocity {:x 0.0 :y 0.0}
+      :radius radius
+    })
+  )
+
+; ~~~~~~~~~~~~~~~~~~~~~~~~
 ; Bodies
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
 
 (defn steer-player-towards
   [mouse-from-origin {:keys [radius] :as player}]
   (let [
-    {norm-x :x norm-y :y} (physics/norm mouse-from-origin)
+    {norm-x :x norm-y :y} (physics/normalize mouse-from-origin)
     distance (physics/magnitude mouse-from-origin)
     ratio (if (< distance radius) (/ distance radius) 1)
     max-speed (physics/radius->max-speed radius)
@@ -59,26 +77,13 @@
 ; Edibles
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
 
-(defn position->edible
-  [position] {
-    :type :edible
-    :alive true
-    :color (rand-nth constants/edible-colors)
-    :position position
-    :velocity {:x 0.0 :y 0.0}
-    :radius constants/initial-edible-radius
-  })
-
 (defn initial-edibles
   []
   (apply
     merge
     (map-indexed
-      (fn [idx pos] {(str "e-" idx) (position->edible pos)})
-      (repeatedly
-        constants/target-edibles
-        #(physics/random-position constants/initial-edible-radius)
-        )
+      (fn [idx pos] {(str "e-" idx) (type->player :edible)})
+      (range constants/target-edibles)
       )
     )
   )
@@ -86,16 +91,6 @@
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
 ; CPU
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
-
-(defn default-cpu
-  [] {
-    :type :cpu
-    :alive true
-    :color (rand-nth constants/edible-colors)
-    :position (physics/random-position constants/initial-player-radius)
-    :velocity {:x 0.0 :y 0.0}
-    :radius constants/initial-player-radius
-  })
 
 (defn most-edible
   [players {my-radius :radius my-position :position my-velocity :velocity :as player}]
@@ -131,16 +126,6 @@
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
 ; Players
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
-
-(defn default-player
-  [uid] {
-    :type :player
-    :alive false
-    :color (rand-nth constants/edible-colors)
-    :position (physics/random-position constants/initial-player-radius)
-    :velocity {:x 0.0 :y 0.0}
-    :radius constants/initial-player-radius
-  })
 
 (defn steer-player
   [players {:keys [type] :as player}]
