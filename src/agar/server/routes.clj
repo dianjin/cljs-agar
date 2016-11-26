@@ -66,7 +66,9 @@
   (println "Unhandled event: " event)
   )
 
+; ~~~~~~~~~~~~~~~~~~~~~~~~
 ; Broadcaster
+; ~~~~~~~~~~~~~~~~~~~~~~~~
 
 (defn broadcast
   []
@@ -79,7 +81,9 @@
     )
   )
 
+; ~~~~~~~~~~~~~~~~~~~~~~~~
 ; Ticker
+; ~~~~~~~~~~~~~~~~~~~~~~~~
 
 (defn ticker
   []
@@ -102,7 +106,9 @@
     )
   )
 
-; Connecting / disconnecting
+; ~~~~~~~~~~~~~~~~~~~~~~~~
+; Connect / disconnect
+; ~~~~~~~~~~~~~~~~~~~~~~~~
 
 (defmethod event :chsk/uidport-open
   [{:keys [uid client-id]}]
@@ -116,7 +122,9 @@
   (update/remove-player uid)
   )
 
-; User triggered transitions
+; ~~~~~~~~~~~~~~~~~~~~~~~~
+; User-triggered events
+; ~~~~~~~~~~~~~~~~~~~~~~~~
 
 (defmethod event :agar/start-play
   [{:keys [uid]}]
@@ -128,12 +136,14 @@
   (update/add-cpu uid)
   )
 
-(defmethod event :agar/set-mouse-position
+(defmethod event :agar/steer-user
   [{:keys [uid ?data]}]
-  (update/set-mouse-position uid ?data)
+  (update/steer-user uid ?data)
   )
 
+; ~~~~~~~~~~~~~~~~~~~~~~~~
 ; Router
+; ~~~~~~~~~~~~~~~~~~~~~~~~
 
 (defn start-router
   []

@@ -11,10 +11,9 @@
     )
   )
 
-(defn radius->max-speed
-  [radius]
-  (* constants/inverse-radius-speed-factor (/ 1 radius))
-  )
+; ~~~~~~~~~~~~~~~~~~~~~~~~
+; Vectors
+; ~~~~~~~~~~~~~~~~~~~~~~~~
 
 (defn vector-from-to
   [{from-x :x from-y :y} {to-x :x to-y :y}]
@@ -33,11 +32,6 @@
   (distance {:x 0 :y 0} vector)
   )
 
-(defn faster?
-  [v1 v2]
-  (> (magnitude v1) (magnitude v2))
-  )
-
 (defn normalize
   [{:keys [x y] :as vector}]
   (let [size (magnitude vector)]
@@ -46,6 +40,15 @@
       {:x (/ x size) :y (/ y size)}
       )
     )
+  )
+
+; ~~~~~~~~~~~~~~~~~~~~~~~~
+; Game physics
+; ~~~~~~~~~~~~~~~~~~~~~~~~
+
+(defn radius->max-speed
+  [radius]
+  (* constants/inverse-radius-speed-factor (/ 1 radius))
   )
 
 (defn random-position

@@ -1,12 +1,11 @@
 (ns agar.model
   (:require
-    [reagent.core :as r]
+    [reagent.core :as reagent]
     )
   )
 
 (defonce state
-  (r/atom {
-    :local nil
+  (reagent/atom {
     :remote nil
     :uid nil
     })

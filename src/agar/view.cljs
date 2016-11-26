@@ -7,10 +7,6 @@
     [agar.constants :as constants]
     [agar.model :as model]
     [agar.physics :as physics]
-    [clojure.string :as string]
-    [goog.events :as events]
-    [goog.events.KeyCodes :as KeyCodes]
-    [goog.crypt :as crypt]
     [goog.dom :as dom]
     )
   )
@@ -20,7 +16,7 @@
 (defn mouse-move-handler
   [{cx :x cy :y} e]
   (let [x (.-clientX e) y (.-clientY e)]
-    (communication/set-mouse-position
+    (communication/steer-user
       {:x (- x cx) :y (- y cy)}
       )
     )

@@ -59,9 +59,9 @@
   (chsk-send! [:agar/add-cpu])
   )
 
-(defn set-mouse-position
+(defn steer-user
   [position]
-  (chsk-send! [:agar/set-mouse-position position])
+  (chsk-send! [:agar/steer-user position])
   )
 
 (defmethod event-msg-handler :chsk/handshake

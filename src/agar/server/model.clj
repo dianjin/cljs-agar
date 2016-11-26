@@ -5,7 +5,9 @@
     )
   )
 
-; Remote state
+; ~~~~~~~~~~~~~~~~~~~~~~~~
+; State
+; ~~~~~~~~~~~~~~~~~~~~~~~~
 
 (defonce remote
   (ref {
@@ -14,7 +16,19 @@
     })
   )
 
-; Remote updaters
+; ~~~~~~~~~~~~~~~~~~~~~~~~
+; Updaters
+; ~~~~~~~~~~~~~~~~~~~~~~~~
+
+(defn steer-cpus
+  [remote]
+  (update remote :players player/steer-cpus)
+  )
+
+(defn move-players
+  [remote]
+  (update remote :players #(player/move-players %))
+  )
 
 (defn eat-players
   [{:keys [players] :as remote}]
@@ -33,12 +47,17 @@
     )
   )
 
-(defn steer-cpus
-  [remote]
-  (update
+(defn steer-user
+  [uid pos-from-origin remote]
+  (update-in
     remote
-    :players
-    #(player/steer-cpus %)
+    [:players uid]
+    (fn [{:keys [alive] :as player}]
+      (if alive
+        (player/steer-player-towards pos-from-origin player)
+        player
+        )
+      )
     )
   )
 
@@ -56,43 +75,12 @@
     )
   )
 
-(defn move-players
-  [remote]
-  (update
-    remote
-    :players
-    #(player/move-players %)
-    )
-  )
-
-(defn set-mouse-position
-  [uid pos-from-origin remote]
-  (update-in
-    remote
-    [:players uid]
-    (fn [{:keys [alive] :as player}]
-      (if (not alive)
-        player
-        (player/steer-player-towards pos-from-origin player)
-        )
-      )
-    )
-  )
-
 (defn add-player
   [uid remote]
-  (assoc-in
-    remote
-    [:players uid]
-    (player/type->player uid :user)
-    )
+  (assoc-in remote [:players uid] (player/type->player uid :user))
   )
 
 (defn remove-player
   [uid remote]
-  (update
-    remote
-    :players
-    (partial player/remove-players uid)
-    )
+  (update remote :players (partial player/remove-players uid))
   )

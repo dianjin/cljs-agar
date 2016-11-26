@@ -113,7 +113,7 @@
     )
   )
 
-(defn kill-player
+(defn kill
   [player]
   (assoc
     player
@@ -122,7 +122,7 @@
     )
   )
 
-(defn reset-player-position
+(defn reset-position
   [{:keys [radius] :as player}]
   (assoc
     player
@@ -179,9 +179,9 @@
   (reduce
     (fn [p-map id]
       (case (get-in p-map [id :type])
-        :user (update p-map id kill-player)
+        :user (update p-map id kill)
         :cpu (dissoc p-map id)
-        :edible (update p-map id reset-player-position)
+        :edible (update p-map id reset-position)
         )
       )
     players
