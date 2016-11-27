@@ -1,7 +1,7 @@
-(ns agar.server.model
+(ns cljsagar.server.model
   (:require
-    [agar.server.player :as player]
-    [agar.physics :as physics]
+    [cljsagar.server.player :as player]
+    [cljsagar.physics :as physics]
     )
   )
 

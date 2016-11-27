@@ -1,8 +1,8 @@
-(ns agar.communication
+(ns cljsagar.communication
   (:require
-    [agar.ainit]
-    [agar.model :as model]
-    [agar.config :as config]
+    [cljsagar.ainit]
+    [cljsagar.model :as model]
+    [cljsagar.config :as config]
     [taoensso.sente :as sente]))
 
 (defn get-chsk-url
@@ -51,17 +51,17 @@
 
 (defn start-play
   []
-  (chsk-send! [:agar/start-play])
+  (chsk-send! [:cljsagar/start-play])
   )
 
 (defn add-cpu
   []
-  (chsk-send! [:agar/add-cpu])
+  (chsk-send! [:cljsagar/add-cpu])
   )
 
 (defn steer-user
   [position]
-  (chsk-send! [:agar/steer-user position])
+  (chsk-send! [:cljsagar/steer-user position])
   )
 
 (defmethod event-msg-handler :chsk/handshake

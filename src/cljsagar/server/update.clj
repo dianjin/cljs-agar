@@ -1,6 +1,6 @@
-(ns agar.server.update
+(ns cljsagar.server.update
   (:require
-    [agar.server.model :as model]
+    [cljsagar.server.model :as model]
     )
   )
 

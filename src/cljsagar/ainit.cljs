@@ -1,3 +1,3 @@
-(ns agar.ainit)
+(ns cljsagar.ainit)
 
 (enable-console-print!)

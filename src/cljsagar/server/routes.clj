@@ -1,8 +1,8 @@
-(ns agar.server.routes
+(ns cljsagar.server.routes
   (:require
-    [agar.constants :as constants]
-    [agar.server.model :as model]
-    [agar.server.update :as update]
+    [cljsagar.constants :as constants]
+    [cljsagar.server.model :as model]
+    [cljsagar.server.update :as update]
     [ring.middleware.defaults :as defaults]
     [ring.middleware.reload :as reload]
     [ring.middleware.cors :as cors]
@@ -76,7 +76,7 @@
     [uid (:any @(:connected-uids channel-socket))]
     ((:send-fn channel-socket)
       uid
-      [:agar/remote @model/remote]
+      [:cljsagar/remote @model/remote]
       )
     )
   )
@@ -126,17 +126,17 @@
 ; User-triggered events
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
 
-(defmethod event :agar/start-play
+(defmethod event :cljsagar/start-play
   [{:keys [uid]}]
   (update/start-play uid)
   )
 
-(defmethod event :agar/add-cpu
+(defmethod event :cljsagar/add-cpu
   [{:keys [uid]}]
   (update/add-cpu uid)
   )
 
-(defmethod event :agar/steer-user
+(defmethod event :cljsagar/steer-user
   [{:keys [uid ?data]}]
   (update/steer-user uid ?data)
   )

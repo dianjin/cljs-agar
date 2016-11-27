@@ -1,4 +1,4 @@
-(defproject cljs-agar "0.1.0-SNAPSHOT"
+(defproject cljsagar "0.1.0-SNAPSHOT"
   :description "TODO"
   :url "TODO"
   :license {:name "Eclipse Public License"
@@ -27,9 +27,9 @@
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
-  :main agar.server.main
+  :main cljsagar.server.main
 
-  :uberjar-name "agar-standalone.jar"
+  :uberjar-name "cljsagar-standalone.jar"
 
   :profiles
   {:dev {:env {:dev? "true"}
@@ -37,9 +37,9 @@
                      [{:id "dev"
                        :source-paths ["src" "dev"]
                        :figwheel {}
-                       :compiler {:main agar.main
+                       :compiler {:main cljsagar.main
                                   :asset-path "js/compiled/out"
-                                  :output-to "resources/public/js/compiled/agar.js"
+                                  :output-to "resources/public/js/compiled/cljsagar.js"
                                   :output-dir "resources/public/js/compiled/out"
                                   :source-map-timestamp true}}]}}
    :uberjar {:hooks [leiningen.cljsbuild]
@@ -47,8 +47,8 @@
              :cljsbuild {:builds
                          [{:id "min"
                            :source-paths ["src" "prod"]
-                           :compiler {:main agar.main
-                                      :output-to "resources/public/js/compiled/agar.js"
+                           :compiler {:main cljsagar.main
+                                      :output-to "resources/public/js/compiled/cljsagar.js"
                                       :optimizations :advanced
                                       :pretty-print false}}]}}}
 

@@ -1,6 +1,6 @@
-(ns agar.physics
+(ns cljsagar.physics
   (:require
-    [agar.constants :as constants]
+    [cljsagar.constants :as constants]
     )
   )
 
