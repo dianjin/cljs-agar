@@ -1,6 +1,6 @@
-(ns agar.components.background
+(ns cljsagar.components.background
   (:require
-    [agar.constants :as constants]
+    [cljsagar.constants :as constants]
     )
   )
 

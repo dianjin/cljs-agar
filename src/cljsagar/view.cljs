@@ -1,12 +1,12 @@
-(ns agar.view
+(ns cljsagar.view
   (:require
-    [agar.communication :as communication]
-    [agar.components.background :as background]
-    [agar.components.foreground :as foreground]
-    [agar.components.information :as information]
-    [agar.constants :as constants]
-    [agar.model :as model]
-    [agar.physics :as physics]
+    [cljsagar.communication :as communication]
+    [cljsagar.components.background :as background]
+    [cljsagar.components.foreground :as foreground]
+    [cljsagar.components.information :as information]
+    [cljsagar.constants :as constants]
+    [cljsagar.model :as model]
+    [cljsagar.physics :as physics]
     [goog.dom :as dom]
     )
   )

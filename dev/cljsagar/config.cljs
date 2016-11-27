@@ -1,3 +1,3 @@
-(ns agar.config)
+(ns cljsagar.config)
 
 (def server "localhost:3000")

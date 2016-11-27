@@ -1,7 +1,7 @@
-(ns ^:figwheel-always agar.main
+(ns ^:figwheel-always cljsagar.main
   (:require
-    [agar.ainit]
-    [agar.view :as view]
+    [cljsagar.ainit]
+    [cljsagar.view :as view]
     [reagent.core :as r]
     )
   )

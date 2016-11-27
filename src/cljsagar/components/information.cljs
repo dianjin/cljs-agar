@@ -1,7 +1,7 @@
-(ns agar.components.information
+(ns cljsagar.components.information
   (:require
-    [agar.constants :as constants]
-    [agar.communication :as communication]
+    [cljsagar.constants :as constants]
+    [cljsagar.communication :as communication]
     )
   )
 

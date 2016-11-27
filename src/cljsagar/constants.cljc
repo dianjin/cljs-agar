@@ -1,4 +1,4 @@
-(ns agar.constants)
+(ns cljsagar.constants)
 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
 ; Server

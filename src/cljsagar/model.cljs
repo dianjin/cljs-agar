@@ -1,4 +1,4 @@
-(ns agar.model
+(ns cljsagar.model
   (:require
     [reagent.core :as reagent]
     )

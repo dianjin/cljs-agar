@@ -1,7 +1,7 @@
-(ns agar.server.main
+(ns cljsagar.server.main
   (:require
     [org.httpkit.server :as server]
-    [agar.server.routes :as routes]
+    [cljsagar.server.routes :as routes]
     [environ.core :as environ]
     )
   (:gen-class)
