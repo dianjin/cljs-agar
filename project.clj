@@ -1,4 +1,4 @@
-(defproject agar "0.1.0-SNAPSHOT"
+(defproject cljs-agar "0.1.0-SNAPSHOT"
   :description "TODO"
   :url "TODO"
   :license {:name "Eclipse Public License"
